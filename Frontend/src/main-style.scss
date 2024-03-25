@@ -1,0 +1,22 @@
+// initializing basic colors 
+$light-blue : #626be6;
+$medium-blue : rgb(54, 54, 182);
+$dark-blue: #0a0a36;
+
+// initializing font size
+$paragraph-size: 20px;
+$topic-size: 30px;
+$sub-topic-size:25px;
+
+// basic 
+html,body{
+    background-color: $light-blue;
+    height: 100vh;
+    width: 100vw;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}

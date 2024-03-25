@@ -1,0 +1,35 @@
+@import '../../../../main-style.scss';
+
+.task-list{
+    height: 100%;
+    padding: 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.task-list-topic{
+    color: $dark-blue ;
+    font-size: $sub-topic-size;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 1rem;
+}
+
+.task-list-body-items{
+    padding: 10px;
+    color: $medium-blue;
+    font-size: $paragraph-size;
+    width: 10rem;
+    font-weight: bold;
+&:hover{
+    background-color: green;
+    color: black;
+}}
+
+.add-button-list{
+    width: 10rem;
+    background-color: $medium-blue;
+    padding:3px 2px;
+    font-weight: bold;
+    font-size: $paragraph-size;
+}

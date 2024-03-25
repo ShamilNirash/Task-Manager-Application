@@ -1,0 +1,7 @@
+<div class="tasks-body container-fluid">
+    <div class="tasks-body-topic">Tasks</div>
+    <div class="tasks-body-content">
+        <div class="task-body-content-items" *ngFor="let item of taskItems; let i = index"  (click)="active = i" [ngStyle]="active===i?{'text-decoration':'line-through','opacity':'0.6'}:{}">
+        {{item}}</div>
+    </div>
+</div>
