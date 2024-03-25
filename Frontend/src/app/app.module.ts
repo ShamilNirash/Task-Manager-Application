@@ -6,6 +6,7 @@ import { TaskManagerBoxComponent } from './pages/task-manager-box/task-manager-b
 import { TasksComponent } from './pages/task-manager-box/tasks/tasks.component';
 import { TasklistComponent } from './pages/task-manager-box/tasklist/tasklist.component';
 import { TaskManagerAppComponent } from './pages/task-manager-app/task-manager-app.component';
+import {  HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TaskManagerAppComponent } from './pages/task-manager-app/task-manager-a
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
