@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const {mongoose} = require('./db/mongoose');
+const cors = require("cors");
 
 //load models to app.js
 const {list}= require('./db/models/list.model');
@@ -9,6 +10,18 @@ const {Task}= require('./db/models/task.module');
 
 // load middleware(body of request)
 app.use(bodyParser.json());
+
+// CORS HEADERS MIDDLEWARE
+
+/* app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+ */
+app.use(cors({
+  origin:"http://localhost:4200"
+}));
 
 /* 
 path: Get /lists
