@@ -15,7 +15,12 @@
     margin-bottom: 1rem;
 }
 
-.task-list-body-items{
+.task-list-body{
+    display:flex;
+    align-items:start;
+    flex-direction: column;
+    height: 100%;
+    &-items{
     padding: 10px;
     color: $medium-blue;
     font-size: $paragraph-size;
@@ -24,7 +29,7 @@
 &:hover{
     background-color: green;
     color: black;
-}}
+}}}
 
 .add-button-list{
     width: 10rem;
@@ -32,4 +37,9 @@
     padding:3px 2px;
     font-weight: bold;
     font-size: $paragraph-size;
+}
+
+.active{
+    background-color: green;
+    color: black;
 }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { TaskService } from 'src/app/task.service';
+
 
 @Component({
   selector: 'app-tasklist',
@@ -7,13 +9,17 @@ import { TaskService } from 'src/app/task.service';
   styleUrls: ['./tasklist.component.scss']
 })
 export class TasklistComponent {
-  taskList=['Frontend','Backend','Server Tasks','Server Tasks'];
-   constructor(private taskService:TaskService){
+  taskList:any[]=[];
+  constructor(private taskService:TaskService, private route:ActivatedRoute){
 
-   }
-
-
-  onClick(){
-     this.taskService.createNewList('testing').subscribe((response:any)=>{console.log(response);});
   }
+  ngOnInit(){
+  
+  
+  this.taskService.getList().subscribe((lists:any)=>{this.taskList=lists})
+  
+  }
+  
+  
+   
 }
