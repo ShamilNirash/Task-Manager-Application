@@ -3,10 +3,10 @@
         Lists
     </div>
     <div class="task-list-body">
-        <div class="task-list-body-items" *ngFor="let task of taskList">
-        {{task}}</div>
+        <div class="task-list-body-items" *ngFor="let task of taskList"  [routerLink]="['/lists',task._id]" routerLinkActive="active">
+        {{task.title}}</div>
     </div>
     <div class="task-list-button">
-        <button class="add-button-list" (click)="onClick()">Add New List</button>
+        <button class="add-button-list" routerLink="/create-list">Add New List</button>
     </div>
 </div>

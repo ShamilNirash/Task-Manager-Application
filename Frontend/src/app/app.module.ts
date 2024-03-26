@@ -7,6 +7,8 @@ import { TasksComponent } from './pages/task-manager-box/tasks/tasks.component';
 import { TasklistComponent } from './pages/task-manager-box/tasklist/tasklist.component';
 import { TaskManagerAppComponent } from './pages/task-manager-app/task-manager-app.component';
 import {  HttpClientModule } from '@angular/common/http';
+import { CreateNewListComponent } from './pages/create-new-list/create-new-list.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,12 +16,14 @@ import {  HttpClientModule } from '@angular/common/http';
     TaskManagerBoxComponent,
     TasksComponent,
     TasklistComponent,
-    TaskManagerAppComponent
+    TaskManagerAppComponent,
+    CreateNewListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+   FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

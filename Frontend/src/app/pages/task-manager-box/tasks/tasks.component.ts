@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { TaskService } from 'src/app/task.service';
 
 @Component({
   selector: 'app-tasks',
@@ -7,6 +9,16 @@ import { Component } from '@angular/core';
 })
 export class TasksComponent {
   active:any='';
-taskItems=["test 1","Test 2","Test 3","Test 4"];
+taskItems:any[]=[];
+constructor(private taskService:TaskService,private router:ActivatedRoute){}
+
+ngOnInit(){
+  this.router.params.subscribe((params:Params)=>{
+    this.taskService.getTaskList(params['listId']).subscribe((list:any)=>{ this.taskItems=list;
+    ;
+    })
+  })
+}
+
 
 }
