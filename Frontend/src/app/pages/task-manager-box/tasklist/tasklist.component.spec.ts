@@ -8,7 +8,7 @@ describe('TasklistComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TasklistComponent]
+      declarations: [TasklistComponent],
     });
     fixture = TestBed.createComponent(TasklistComponent);
     component = fixture.componentInstance;

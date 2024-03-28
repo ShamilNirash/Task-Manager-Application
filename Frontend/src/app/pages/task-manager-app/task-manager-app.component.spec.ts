@@ -8,7 +8,7 @@ describe('TaskManagerAppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TaskManagerAppComponent]
+      declarations: [TaskManagerAppComponent],
     });
     fixture = TestBed.createComponent(TaskManagerAppComponent);
     component = fixture.componentInstance;

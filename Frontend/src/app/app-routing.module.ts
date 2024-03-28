@@ -4,14 +4,14 @@ import { TaskManagerAppComponent } from './pages/task-manager-app/task-manager-a
 import { CreateNewListComponent } from './pages/create-new-list/create-new-list.component';
 
 const routes: Routes = [
-  {path:"" , redirectTo:"lists",pathMatch: "full"},
-  {path:"create-list", component:CreateNewListComponent},
-  {path:"lists", component:TaskManagerAppComponent},
-  {path:"lists/:listId", component:TaskManagerAppComponent}
+  { path: '', redirectTo: 'lists', pathMatch: 'full' },
+  { path: 'create-list', component: CreateNewListComponent },
+  { path: 'lists', component: TaskManagerAppComponent },
+  { path: 'lists/:listId', component: TaskManagerAppComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
