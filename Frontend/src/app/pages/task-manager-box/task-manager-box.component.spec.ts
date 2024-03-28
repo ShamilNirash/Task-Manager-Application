@@ -8,7 +8,7 @@ describe('TaskManagerBoxComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TaskManagerBoxComponent]
+      declarations: [TaskManagerBoxComponent],
     });
     fixture = TestBed.createComponent(TaskManagerBoxComponent);
     component = fixture.componentInstance;

@@ -6,7 +6,7 @@ import { TaskManagerBoxComponent } from './pages/task-manager-box/task-manager-b
 import { TasksComponent } from './pages/task-manager-box/tasks/tasks.component';
 import { TasklistComponent } from './pages/task-manager-box/tasklist/tasklist.component';
 import { TaskManagerAppComponent } from './pages/task-manager-app/task-manager-app.component';
-import {  HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CreateNewListComponent } from './pages/create-new-list/create-new-list.component';
 import { FormsModule } from '@angular/forms';
 
@@ -17,15 +17,10 @@ import { FormsModule } from '@angular/forms';
     TasksComponent,
     TasklistComponent,
     TaskManagerAppComponent,
-    CreateNewListComponent
+    CreateNewListComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-   FormsModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
