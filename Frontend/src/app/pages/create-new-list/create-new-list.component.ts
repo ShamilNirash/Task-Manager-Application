@@ -14,9 +14,9 @@ constructor(private taskService:TaskService,private router:Router){
 }
 
 onClick(){
-  this.taskService.createNewList(this.newListName).subscribe((response)=>{console.log(response);
-    this.router.navigateByUrl('/');
-  });
-  
-}
-}
+  this.taskService.createNewList(this.newListName).subscribe({
+    next:(list:any)=>{console.log(list);
+           this.router.navigateByUrl("/")},
+    error:(err)=>{console.log(err.message);}
+  } )
+}}

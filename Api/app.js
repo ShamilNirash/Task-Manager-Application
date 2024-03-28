@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const {mongoose} = require('./db/mongoose');
 const cors = require("cors");
-
+const createProxyMiddleware = require("http-proxy-middleware")
 //load models to app.js
 const {list}= require('./db/models/list.model');
 const {Task}= require('./db/models/task.module');
@@ -12,33 +12,45 @@ const {Task}= require('./db/models/task.module');
 app.use(bodyParser.json());
 
 // CORS HEADERS MIDDLEWARE
-
-/* app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
- */
 app.use(cors({}));
 
 /* 
 path: Get /lists
 task: get all lists
  */
-app.get("/lists", (req, res) => {
-  list.find({}).then((lists) => {
+
+/* app.get("/lists", (req, res) => {
+  list.find().then((lists) => {
+    console.log(lists)
     res.send(lists);
   });
+}); */
+
+app.get("/lists", async (req, res) => {
+  try {
+    const lists = await list.find();
+  
+    res.send(lists);
+  } catch (error) {
+    console.error("Error retrieving lists:", error);
+    res.status(500).send("Error retrieving lists");
+  }
 });
 
 /* 
 path: Put /lists
 task: input new list
  */
-app.post("/lists", (req, res) => {
-   let title =req.body.title;          //get the title of request
-   let newList = new list({title});    //create a new list
-   newList.save().then((updatedList)=>{res.send(updatedList)});   //send the updated list as response
+app.post("/lists", async (req, res) => {
+  try{
+    let title =await req.body.title;          //get the title of request
+   let newList =await  new list({title});    //create a new list
+   await newList.save().then((updatedList)=>{res.send(updatedList)});   //send the updated list as response
+  }catch(error){
+    console.log("Error has been Occur in Post :", error);
+    res.sendStatus(500).send("Error has been Occur in Post");
+  } 
+  
 });
 
 /* 
@@ -62,10 +74,10 @@ app.delete("/lists/:id", (req, res) => {
 path: Get list/:listId/tasks
 task: get tasks related to one list id 
 */
-app.get("/lists/:listId/tasks",(req,res)=>{
+/* app.get("/lists/:listId/tasks",(req,res)=>{
   Task.find({listId:req.params.listId}).then((tasks)=>{res.send(tasks);});
 });
-
+ */
 app.get("/lists/:listId/tasks/:taskId",(req,res)=>{
   Task.findOne({
     listId:req.params.listId,
