@@ -16,7 +16,14 @@ export class TasklistComponent {
   ngOnInit(){
   
   
-  this.taskService.getList().subscribe((lists:any)=>{this.taskList=lists})
+  this.taskService.getList().subscribe({
+    next:(res:any)=>{
+       this.taskList= res;
+    },
+    error:(err)=> {
+        console.log(err.message)
+    },
+  })
   
   }
   
