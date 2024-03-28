@@ -14,10 +14,13 @@ constructor(private taskService:TaskService,private router:ActivatedRoute){}
 
 ngOnInit(){
   this.router.params.subscribe((params:Params)=>{
-    this.taskService.getTaskList(params['listId']).subscribe((list:any)=>{ this.taskItems=list;
-    ;
-    })
-  })
+    this.taskService.getTaskList(params['listId']).subscribe({
+      next:(list:any)=>{ this.taskItems=list;},
+      error:(err)=>{console.log(err.message);
+      }
+    }
+    
+  )})
 }
 
 

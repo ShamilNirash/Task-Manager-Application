@@ -74,10 +74,14 @@ app.delete("/lists/:id", (req, res) => {
 path: Get list/:listId/tasks
 task: get tasks related to one list id 
 */
-/* app.get("/lists/:listId/tasks",(req,res)=>{
-  Task.find({listId:req.params.listId}).then((tasks)=>{res.send(tasks);});
+app.get("/lists/:listId/tasks",async(req,res)=>{
+  try{await Task.find({listId:req.params.listId}).then((tasks)=>{res.send(tasks);});}
+  catch(error){
+    console.log("This is an error in list/:listId/tasks",error);
+    res.sendStatus(500).send("Error has been occur in list/:listId/tasks");
+  }
 });
- */
+
 app.get("/lists/:listId/tasks/:taskId",(req,res)=>{
   Task.findOne({
     listId:req.params.listId,
