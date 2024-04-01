@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TaskService } from 'src/app/task.service';
 
 @Component({
@@ -12,7 +12,8 @@ export class TasksComponent implements OnInit {
   taskItems: any[] = [];
   constructor(
     private taskService: TaskService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private route: Router
   ) {}
   ngOnInit() {
     this.router.params.subscribe((params: Params) => {
@@ -26,6 +27,22 @@ export class TasksComponent implements OnInit {
           },
         });
       }
+    });
+  }
+
+  createNewTask() {
+    this.router.params.subscribe({
+      next: (param: Params) => {
+        /* if list id id not define it is not go to add new task component  */
+        if (param['listId']) {
+          this.route.navigateByUrl(`/lists/${param['listId']}/create-task`);
+        } else {
+          this.route.navigateByUrl('/');
+        }
+      },
+      error: err => {
+        err.message;
+      },
     });
   }
 }
