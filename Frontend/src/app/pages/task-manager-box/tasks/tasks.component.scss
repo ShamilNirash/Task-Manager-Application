@@ -6,8 +6,20 @@
     height: 100%;
     padding: 2rem 2rem;
     border-radius: 0 10px 10px 0;
- 
-}
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    &-plus-button{
+        width: 40px;
+        height: 40px;
+        background-color: $medium-blue;
+        border-radius: 50px ;
+        border: none;
+        &:hover{
+            border: 1px solid black;
+        }
+       }}
+
 
 .tasks-body-topic{
     font-size: $sub-topic-size;
@@ -17,7 +29,12 @@
     margin-bottom: 2rem;
 }
 
-.task-body-content-items{
+.tasks-body-content{
+          display: flex;
+          flex-direction: column;
+          justify-content: start;
+          height: 60%;
+     &-items{
     margin:0 2rem 2rem 2rem;
     width: 30rem;
     background-color: white;
@@ -32,4 +49,7 @@
         cursor: pointer;
     }
     
+   
+}
+
 }

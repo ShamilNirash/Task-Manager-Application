@@ -19,12 +19,6 @@ path: Get /lists
 task: get all lists
  */
 
-/* app.get("/lists", (req, res) => {
-  list.find().then((lists) => {
-    console.log(lists)
-    res.send(lists);
-  });
-}); */
 
 app.get("/lists", async (req, res) => {
   try {

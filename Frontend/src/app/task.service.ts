@@ -12,11 +12,13 @@ export class TaskService {
   }
 
   getList() {
-    // return this.webReqService.get('lists');
     return this.webReqService.get(`lists`);
   }
 
   getTaskList(id: string) {
     return this.webReqService.get(`lists/${id}/tasks`);
+  }
+  createTaskList(id: string, title: string) {
+    return this.webReqService.post(`lists/${id}/tasks`, { title });
   }
 }

@@ -16,8 +16,7 @@ export class CreateNewListComponent {
 
   onClick() {
     this.taskService.createNewList(this.newListName).subscribe({
-      next: (list: any) => {
-        console.log(list);
+      next: () => {
         this.router.navigateByUrl('/');
       },
       error: err => {
