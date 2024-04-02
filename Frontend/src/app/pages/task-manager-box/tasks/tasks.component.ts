@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Task } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/task.service';
 
 @Component({
@@ -8,8 +9,7 @@ import { TaskService } from 'src/app/task.service';
   styleUrls: ['./tasks.component.scss'],
 })
 export class TasksComponent implements OnInit {
-  active: any = '';
-  taskItems: any[] = [];
+  taskItems: Task[] = [];
   constructor(
     private taskService: TaskService,
     private router: ActivatedRoute,
@@ -19,8 +19,8 @@ export class TasksComponent implements OnInit {
     this.router.params.subscribe((params: Params) => {
       if (params['listId']) {
         this.taskService.getTaskList(params['listId']).subscribe({
-          next: (list: any) => {
-            this.taskItems = list;
+          next: (tasks: Task[]) => {
+            this.taskItems = tasks;
           },
           error: err => {
             console.log(err.message);
@@ -42,6 +42,18 @@ export class TasksComponent implements OnInit {
       },
       error: err => {
         err.message;
+      },
+    });
+  }
+
+  setCompleted(task: Task) {
+    task.isCompleted = !task.isCompleted;
+    this.taskService.updateCompletedTasks(task).subscribe({
+      next: () => {
+        console.log('successful');
+      },
+      error: err => {
+        console.log(err.message);
       },
     });
   }
