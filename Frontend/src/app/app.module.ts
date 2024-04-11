@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CreateNewListComponent } from './pages/create-new-list/create-new-list.component';
 import { FormsModule } from '@angular/forms';
 import { CreateNewTaskComponent } from './pages/create-new-task/create-new-task.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CreateNewTaskComponent } from './pages/create-new-task/create-new-task.
     TaskManagerAppComponent,
     CreateNewListComponent,
     CreateNewTaskComponent,
+    SignupComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
