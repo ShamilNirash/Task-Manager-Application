@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:api":"cd Api && nodemon app.js",
-    "start:web":"cd Frontend && npm run start",
+    "start:api": "cd Api && nodemon app.js",
+    "start:web": "cd Frontend && npm run start",
     "start": "concurrently \"npm run start:api\" \"npm run start:web\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^8.2.2",
+    "jsonwebtoken": "^9.0.2"
   }
 }

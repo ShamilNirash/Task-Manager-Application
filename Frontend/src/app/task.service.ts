@@ -17,7 +17,8 @@ export class TaskService {
     return this.http.get<List[]>(`${this.BASE_URL}/lists`);
   }
   createNewList(title: string) {
-    return this.http.post(`${this.BASE_URL}/lists`, title);
+    console.log(title);
+    return this.http.post(`${this.BASE_URL}/lists`, { title });
   }
 
   getTaskList(id: string): Observable<Task[]> {

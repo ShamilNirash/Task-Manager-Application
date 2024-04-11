@@ -10,6 +10,7 @@ import { TaskService } from 'src/app/task.service';
 })
 export class TasksComponent implements OnInit {
   taskItems: Task[] = [];
+  isNotEmptyTasks = false;
   constructor(
     private taskService: TaskService,
     private router: ActivatedRoute,
@@ -18,6 +19,7 @@ export class TasksComponent implements OnInit {
   ngOnInit() {
     this.router.params.subscribe((params: Params) => {
       if (params['listId']) {
+        this.isNotEmptyTasks = true;
         this.taskService.getTaskList(params['listId']).subscribe({
           next: (tasks: Task[]) => {
             this.taskItems = tasks;
@@ -26,6 +28,8 @@ export class TasksComponent implements OnInit {
             console.log(err.message);
           },
         });
+      } else {
+        this.isNotEmptyTasks = false;
       }
     });
   }
@@ -49,9 +53,6 @@ export class TasksComponent implements OnInit {
   setCompleted(task: Task) {
     task.isCompleted = !task.isCompleted;
     this.taskService.updateCompletedTasks(task).subscribe({
-      next: () => {
-        console.log('successful');
-      },
       error: err => {
         console.log(err.message);
       },

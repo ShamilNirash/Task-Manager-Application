@@ -1,13 +1,24 @@
-<div class="tasks-body container-fluid">
+<div
+  class="tasks-body container-fluid"
+  *ngIf="isNotEmptyTasks; else other_content">
   <div class="tasks-body-topic">Tasks</div>
   <div class="tasks-body-content">
-    <div
-      class="tasks-body-content-items"
-      *ngFor="let item of taskItems"
-      (click)="setCompleted(item)"
-      [ngStyle]="item.isCompleted ? {'text-decoration':'line-through','opacity':'0.6'} : {}">
-      {{ item.title }}
+    <div *ngIf="taskItems.length === 0; else other_one" class="noTaskSide">
+      This is empty task list
     </div>
+    <ng-template #other_one>
+      <div
+        class="tasks-body-content-items"
+        *ngFor="let item of taskItems"
+        (click)="setCompleted(item)"
+        [ngStyle]="
+          item.isCompleted
+            ? { 'text-decoration': 'line-through', opacity: '0.6' }
+            : {}
+        ">
+        {{ item.title }}
+      </div>
+    </ng-template>
   </div>
 
   <button class="tasks-body-plus-button" (click)="createNewTask()">
@@ -17,4 +28,6 @@
       class="task-body-plus-button-img" />
   </button>
 </div>
-
+<ng-template #other_content>
+  <div class="noTaskSide">Please select a List from slide bar</div>
+</ng-template>
