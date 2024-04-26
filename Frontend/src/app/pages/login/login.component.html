@@ -1,0 +1,33 @@
+<div class="login-body">
+    <div class="login-tab">
+      <div class="login-tab-content">
+        <div class="login-tab-content-header">Login</div>
+        <div class="login-tab-content-body">
+          <div class="login-tab-content-body-item">
+            Enter Email : <br />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="login-tab-content-body-item-input"
+              #emailInput />
+          </div>
+          <div class="login-tab-content-body-item">
+            Enter Password : <br />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              class="login-tab-content-body-item-input"
+              #passwordInput />
+          </div>
+        </div>
+        <div class="login-tab-content-btn">
+            <button class="login-tab-content-btn-option">Cancel</button>
+            <button
+              class="login-tab-content-btn-option"
+              (click)="onClick(emailInput.value, passwordInput.value)">
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>

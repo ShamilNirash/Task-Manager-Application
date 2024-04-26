@@ -6,11 +6,13 @@ import { TaskManagerBoxComponent } from './pages/task-manager-box/task-manager-b
 import { TasksComponent } from './pages/task-manager-box/tasks/tasks.component';
 import { TasklistComponent } from './pages/task-manager-box/tasklist/tasklist.component';
 import { TaskManagerAppComponent } from './pages/task-manager-app/task-manager-app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CreateNewListComponent } from './pages/create-new-list/create-new-list.component';
 import { FormsModule } from '@angular/forms';
 import { CreateNewTaskComponent } from './pages/create-new-task/create-new-task.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RequestHeaderSetInterceptor } from './request-header-set.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,9 +24,15 @@ import { SignupComponent } from './pages/signup/signup.component';
     CreateNewListComponent,
     CreateNewTaskComponent,
     SignupComponent,
+    LoginComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS,
+      useClass:RequestHeaderSetInterceptor,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

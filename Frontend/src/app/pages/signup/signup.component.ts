@@ -1,5 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
+import { Route, Router } from '@angular/router';
+import { shareReplay } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 
 @Component({
@@ -8,10 +10,14 @@ import { AuthService } from 'src/app/auth.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private route:Router) { }
   onClick(email: string, password: string) {
-    this.authService.postSigninCredentials(email, password).subscribe(res => {
-      console.log(res);
-    });
+    console.log("clicked")
+    this.authService.signLogCredentials(email, password,'users').subscribe((res)=>{
+      console.log("subscribe")
+      if(res.status==200){
+        this.route.navigate(['/lists']);
+      }
+    })
   }
 }

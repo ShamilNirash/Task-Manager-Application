@@ -45,7 +45,7 @@ UserSchema.methods.toJSON = function () {
 *return jwtsecret
 */
 UserSchema.statics.getJwtSecret= ()=>{
-  return jwtsecret;
+  return  refreshSecret;
 }
 
 /* 
@@ -57,7 +57,7 @@ UserSchema.methods.generateAuthToken = function () {
     jwt.sign(
       { _id: user._id },
       jwtsecret,
-      { expiresIn: "10m" },
+      { expiresIn: "20s" },
       (err, token) => {
         if (!err) {
           return resolve(token);
@@ -75,11 +75,11 @@ generate refresh token
 UserSchema.methods.generateRefreshToken = function () {
   user = this;
   return new Promise((resolve, reject) => {
-    const refreshToken = jwt.sign(
-      { _id: user._Id },
+    jwt.sign(
+      { _id: user._id },
       refreshSecret,
       {
-        expiresIn: "240h",
+        expiresIn: "30s",
       },
       (err, token) => {
         if (!err) {
