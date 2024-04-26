@@ -33,7 +33,7 @@ app.use(function (req, res, next) {
 });
 
 let authenticate = (req, res, next) => {
-  const token = req.header("x-access-token");
+  const token = req.header("x-refresh-token");
   // verify the jwt
   jwt.verify(token, User.getJwtSecret(), (err, decoded) => {
     if (err) {
@@ -46,7 +46,7 @@ let authenticate = (req, res, next) => {
   });
 };
 
-let verifySession = (req, res, next) => {
+/* let verifySession = (req, res, next) => {
   //not app.use() because always not want to execute this function
   // grab the refresh token from the request header
   let refreshToken = req.header("x-refresh-token");
@@ -96,7 +96,7 @@ let verifySession = (req, res, next) => {
     .catch((e) => {
       res.status(401).send(e);
     });
-};
+}; */
 /* Middleware Ends... */
 /* 
 path: Get /lists
@@ -106,7 +106,6 @@ task: get all lists
 app.get("/lists", authenticate, async (req, res) => {
   try {
     const lists = await list.find({ _userId: req.user_id });
-    console.log(lists);
     res.send(lists);
   } catch (error) {
     console.error("Error retrieving lists:", error);
@@ -318,7 +317,7 @@ app.post("/users/login", (req, res) => {
     });
 });
 
-app.get("/users/me/access-token", verifySession, (req, res) => {
+/* app.get("/users/me/access-token", verifySession, (req, res) => {
   req.userObject
     .generateAuthToken()
     .then((token) => {
@@ -329,7 +328,7 @@ app.get("/users/me/access-token", verifySession, (req, res) => {
       res.status(400).send(err);
       console.log("err in api")
     });
-});
+}); */
 
 //Helper Methods
 deleteAllTasks = (list_id) => {
