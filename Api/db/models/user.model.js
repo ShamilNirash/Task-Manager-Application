@@ -41,6 +41,12 @@ UserSchema.methods.toJSON = function () {
   const userObject = user.toObject();
   return new _.omit(userObject, ["password", "sessions"]);
 };
+/* 
+*return jwtsecret
+*/
+UserSchema.statics.getJwtSecret= ()=>{
+  return jwtsecret;
+}
 
 /* 
 generate  json web token
@@ -51,7 +57,7 @@ UserSchema.methods.generateAuthToken = function () {
     jwt.sign(
       { _id: user._id },
       jwtsecret,
-      { expiresIn: "10s" },
+      { expiresIn: "10m" },
       (err, token) => {
         if (!err) {
           return resolve(token);
@@ -73,7 +79,7 @@ UserSchema.methods.generateRefreshToken = function () {
       { _id: user._Id },
       refreshSecret,
       {
-        expiresIn: "120h",
+        expiresIn: "240h",
       },
       (err, token) => {
         if (!err) {

@@ -8,14 +8,46 @@ const createProxyMiddleware = require("http-proxy-middleware");
 const { list } = require("./db/models/list.model");
 const { Task } = require("./db/models/task.module");
 const { User } = require("./db/models/user.model");
+const jwt = require("jsonwebtoken");
 
 // load middleware(body of request)
 app.use(bodyParser.json());
-
+/* Middelware Starts.... */
 // CORS HEADERS MIDDLEWARE
-app.use(cors({}));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, x-access-token, x-refresh-token, _id"
+  );
+  // headers that are exposed to client
+  res.header(
+    "Access-Control-Expose-Headers",
+    "x-access-token, x-refresh-token"
+  );
+  next();
+});
 
-let verifySession = (req, res, next) => {   //not app.use() because always not want to execute this function
+let authenticate = (req, res, next) => {
+  const token = req.header("x-access-token");
+  // verify the jwt
+  jwt.verify(token, User.getJwtSecret(), (err, decoded) => {
+    if (err) {
+      res.status(401).send(err);
+    } else {
+      req.user_id = decoded._id;
+
+      next();
+    }
+  });
+};
+
+let verifySession = (req, res, next) => {
+  //not app.use() because always not want to execute this function
   // grab the refresh token from the request header
   let refreshToken = req.header("x-refresh-token");
 
@@ -43,11 +75,10 @@ let verifySession = (req, res, next) => {   //not app.use() because always not w
         user.sessions.forEach((session) => {
           if (session.token === refreshToken) {
             // check if the session has expired
-           
+
             if (User.hasRefreshTokenExpired(session.expireAt) === false) {
               // refresh token has not expired
               isSessionValid = true;
-             
             }
           }
         });
@@ -66,16 +97,16 @@ let verifySession = (req, res, next) => {   //not app.use() because always not w
       res.status(401).send(e);
     });
 };
-
+/* Middleware Ends... */
 /* 
 path: Get /lists
 task: get all lists
  */
 
-app.get("/lists", async (req, res) => {
+app.get("/lists", authenticate, async (req, res) => {
   try {
-    const lists = await list.find();
-
+    const lists = await list.find({ _userId: req.user_id });
+    console.log(lists);
     res.send(lists);
   } catch (error) {
     console.error("Error retrieving lists:", error);
@@ -87,12 +118,11 @@ app.get("/lists", async (req, res) => {
 path: Put /lists
 task: input new list
  */
-app.post("/lists", async (req, res) => {
-  console.log(req.body.title)
+app.post("/lists", authenticate, async (req, res) => {
   try {
-   
     let title = await req.body.title; //get the title of request
-    let newList = await new list({ title }); //create a new list
+    let _userId = await req.user_id;
+    let newList = await new list({ title, _userId }); //create a new list
     await newList.save().then((updatedList) => {
       res.send(updatedList);
     }); //send the updated list as response
@@ -106,83 +136,133 @@ app.post("/lists", async (req, res) => {
 path: Patch /lists/:id 
 task: update specified list
 */
-app.patch("/lists/:id", (req, res) => {
-  list.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }).then(() => {
-    res.sendStatus(200);
-  });
+app.patch("/lists/:id", authenticate, (req, res) => {
+  list
+    .findOneAndUpdate(
+      { _id: req.params.id, _userId: req.user_id },
+      { $set: req.body }
+    )
+    .then(() => {
+      res.sendStatus(200);
+    });
 });
 
 /* 
 path: Delete lists/:id 
 task: delete specified list 
 */
-app.delete("/lists/:id", (req, res) => {
-  list.findOneAndDelete({ _id: req.params.id }).then((list) => {
-    res.send(list);
-  });
+app.delete("/lists/:id", authenticate, (req, res) => {
+  list
+    .findOneAndDelete({ _id: req.params.id, _userId: req.user_id })
+    .then((list) => {
+      res.send(list);
+      deleteAllTasks(list._id);
+    });
 });
 
 /* 
 path: Get list/:listId/tasks
 task: get tasks related to one list id 
 */
-app.get("/lists/:listId/tasks", async (req, res) => {
+app.get("/lists/:listId/tasks", authenticate, (req, res) => {
   try {
-    await Task.find({ listId: req.params.listId }).then((tasks) => {
-      res.send(tasks);
-    });
+    list
+      .findOne({ _id: req.params.listId, _userId: req.user_id })
+      .then((list) => {
+        if (list) {
+          Task.find({ listId: req.params.listId }).then((tasks) => {
+            res.send(tasks);
+          });
+        } else {
+          res.sendStatus(404);
+        }
+      });
   } catch (error) {
     console.log("This is an error in list/:listId/tasks", error);
-    res.sendStatus(500).send("Error has been occur in list/:listId/tasks");
+    res.status(500).send("Error has been occur in list/:listId/tasks");
   }
 });
 
-app.get("/lists/:listId/tasks/:taskId", (req, res) => {
-  Task.findOne({
-    listId: req.params.listId,
-    _id: req.params.taskId,
-  }).then((foundTask) => {
-    res.send(foundTask);
-  });
+app.get("/lists/:listId/tasks/:taskId", authenticate, (req, res) => {
+  list
+    .findOne({ _id: req.params.listId, _userId: req.user_id })
+    .then((list) => {
+      if (list) {
+        Task.findOne({
+          listId: req.params.listId,
+          _id: req.params.taskId,
+        }).then((foundTask) => {
+          res.send(foundTask);
+        });
+      } else {
+        res.sendStatus(404);
+      }
+    });
 });
 /* 
 path: Post list/:listId/tasks
 task: add new task to related list id
 */
-app.post("/lists/:listId/tasks", (req, res) => {
-  let title = req.body.title;
-  let listId = req.params.listId;
-  let newTask = new Task({ title, listId });
-  newTask.save().then((task) => {
-    res.send(task);
-  });
+app.post("/lists/:listId/tasks", authenticate, (req, res) => {
+  list
+    .findOne({ _id: req.params.listId, _userId: req.user_id })
+    .then((list) => {
+      if (list) {
+        let title = req.body.title;
+        let listId = req.params.listId;
+        let newTask = new Task({ title, listId });
+        newTask.save().then((task) => {
+          res.send(task);
+        });
+      } else {
+        res.sendStatus(404);
+      }
+    });
 });
 
 /* 
 path: Patch lists/:listId/tasks
 task: update task to related list id and task id
  */
-app.patch("/lists/:listId/tasks/:taskId", (req, res) => {
-  Task.findOneAndUpdate(
-    {
-      listId: req.params.listId,
-      _id: req.params.taskId,
-    },
-    { $set: { isCompleted: req.body.isCompleted } }
-  ).then(() => {});
+app.patch("/lists/:listId/tasks/:taskId", authenticate, (req, res) => {
+  list
+    .findOne({ _id: req.params.listId, _userId: req.user_id })
+    .then((list) => {
+      if (list) {
+        Task.findOneAndUpdate(
+          {
+            listId: req.params.listId,
+            _id: req.params.taskId,
+          },
+          { $set: { isCompleted: req.body.isCompleted } }
+        ).then(() => {
+          res.sendStatus(200);
+        });
+      } else {
+        res.sendStatus(404);
+      }
+    });
 });
 
 /* 
 path: Delete lists/:listId/tasks/:taskId
 task: delete task related to the task id no and list id no
  */
-app.delete("/lists/:listId/tasks/:taskId", (req, res) => {
-  Task.findOneAndDelete({
-    listId: req.params.listId,
-    _id: req.params.taskId,
-  }).then((removedTask) => {
-    res.send(removedTask);
-  });
+app.delete("/lists/:listId/tasks/:taskId",authenticate ,(req, res) => {
+  list
+    .findOne({ _id: req.params.listId, _userId: req.user_id })
+    .then((list) => {
+      if (list) {
+        Task.findOneAndDelete({
+          listId: req.params.listId,
+          _id: req.params.taskId,
+        }).then((removedTask) => {
+          res.send(removedTask);
+        });
+      } else {
+        res.sendStatus(404);
+      }
+    });
 });
 
 /* USER ROUTES */
@@ -202,9 +282,9 @@ app.post("/users", (req, res) => {
       .then((refreshToken) => {
         return newUser.generateAuthToken().then((authToken) => {
           res
-             .header("x-refresh-token",refreshToken)
-             .header( "x-accessToken", authToken)
-             .send(newUser)
+            .header("x-refresh-token", refreshToken)
+            .header("x-access-token", authToken)
+            .send(newUser);
         });
       });
   } catch (e) {
@@ -230,7 +310,7 @@ app.post("/users/login", (req, res) => {
     .then((token) => {
       res
         .header("x-refresh-token", token.refreshToken)
-        .header("x-accessToken", token.authToken)
+        .header("x-access-token", token.authToken)
         .send(user);
     })
     .catch((e) => {
@@ -243,11 +323,20 @@ app.get("/users/me/access-token", verifySession, (req, res) => {
     .generateAuthToken()
     .then((token) => {
       res.header("x-accessToken", token).send(token);
+      console.log("successfully")
     })
     .catch((err) => {
       res.status(400).send(err);
+      console.log("err in api")
     });
 });
+
+//Helper Methods
+deleteAllTasks = (list_id) => {
+  Task.deleteMany({ list_id }).then(() => {
+    console.log("delete all tasks related to TaskId", list_id);
+  });
+};
 
 app.listen(3000, () => {
   console.log("server is listening on port 3000");
