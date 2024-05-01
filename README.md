@@ -8,7 +8,7 @@ This Task Manager App is built using the MEAN stack (MongoDB, Express.js, Angula
 
 ```bash
 git clone [repository-url]
-
+arduino
 2. **Install dependencies:**
 Navigate to the project root directory and run:
 
