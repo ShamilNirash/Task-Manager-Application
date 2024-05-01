@@ -5,22 +5,24 @@ This Task Manager App is built using the MEAN stack (MongoDB, Express.js, Angula
 ## Installation
 
 1. **Clone the repository:**
-
 ```bash
 git clone [repository-url]
-arduino
+```
+
 2. **Install dependencies:**
 Navigate to the project root directory and run:
 
-```bash
+```
 npm install
+```
 This command will install dependencies for the API, Frontend, and default root.
 
 3. **Run the project:**
 Once the dependencies are installed, you can start the project by running:
 
-```bash
+```
 npm run start
+```
 This will start the server and launch the application.
 
 ## Usage
