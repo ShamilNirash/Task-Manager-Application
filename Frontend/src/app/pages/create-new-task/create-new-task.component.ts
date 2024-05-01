@@ -3,15 +3,15 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TaskService } from 'src/app/task.service';
 
 @Component({
-  selector: 'app-create-new-task',
+  selector: 'app-create-new-task',    
   templateUrl: './create-new-task.component.html',
   styleUrls: ['./create-new-task.component.scss'],
 })
 export class CreateNewTaskComponent {
   taskName = '';
   constructor(
-    private taskService: TaskService,
-    private router: ActivatedRoute,
+    private taskService: TaskService,  
+    private router: ActivatedRoute,   
     private rout: Router
   ) {}
 

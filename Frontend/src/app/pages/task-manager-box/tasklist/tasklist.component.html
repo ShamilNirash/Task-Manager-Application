@@ -3,10 +3,15 @@
         Lists
     </div>
     <div class="task-list-body">
-        <div class="task-list-body-items" *ngFor="let task of taskList"  [routerLink]="['/lists',task._id]" routerLinkActive="active">
-        {{task.title}}</div>
+        <div class="task-list-body-items" *ngFor="let task of taskList"  [routerLink]="['/lists',task._id]" routerLinkActive="active" >
+        {{task.title}}
+        <div class="task-list-logo">
+            <fa-icon [icon]="iconDelete" routerLinkActive="iconDisplay" (click)="deleteItem(task._id)"></fa-icon>
+            <fa-icon [icon]="iconUpdate" routerLinkActive="iconDisplay"(click)="updateItem(task._id)"></fa-icon>
+        </div></div>
+       
     </div>
-    <div class="task-list-button">
+    <div class="task-list-button mt-3">
         <button class="add-button-list" routerLink="/create-list">Add New List</button>
     </div>
 </div>

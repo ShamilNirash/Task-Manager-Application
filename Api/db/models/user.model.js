@@ -79,7 +79,7 @@ UserSchema.methods.generateRefreshToken = function () {
       { _id: user._id },
       refreshSecret,
       {
-        expiresIn: "30s",
+        expiresIn: "30m",
       },
       (err, token) => {
         if (!err) {

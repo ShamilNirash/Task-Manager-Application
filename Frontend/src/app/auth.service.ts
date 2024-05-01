@@ -15,15 +15,15 @@ export class AuthService {
     return this.http.post(`${this.BASE_URL}/${url}`, { email, password }, { observe: 'response' }).pipe(
       shareReplay(),
       tap((res: HttpResponse<any>) => {
-        console.log("storage");
-       this.saveToLocalStorage(
-            res.headers.get('x-access-token') || '',
-            res.headers.get('x-refresh-token') || '',
-            res.body._id
-          );
-          
-      }))}
-  
+        this.saveToLocalStorage(
+          res.headers.get('x-access-token') || '',
+          res.headers.get('x-refresh-token') || '',
+          res.body._id
+        );
+
+      }))
+  }
+
 
 
 
@@ -32,8 +32,7 @@ export class AuthService {
 
   //signup credential save to local storage
   private saveToLocalStorage(accessToken: string, refreshToken: string, id: string) {
-    console.log(refreshToken)
- 
+
     localStorage.setItem("userId", id);
     localStorage.setItem("access-token", accessToken);
     localStorage.setItem("refresh-token", refreshToken);
@@ -51,17 +50,16 @@ export class AuthService {
   getUserId() {
     return localStorage.getItem('userId')
   }
-  setAccessToken(token:string){
-    localStorage.setItem('access-token',token)
+  setAccessToken(token: string) {
+    localStorage.setItem('access-token', token)
   }
 
-// delete local storage
-logout(){
-  window.addEventListener("storage", () => {
-  localStorage.removeItem('refresh-token');
-  localStorage.removeItem('access-token');
-  localStorage.removeItem('userId');})
-}
+  // delete local storage
+  logout() {
+    localStorage.removeItem('refresh-token');
+    localStorage.removeItem('access-token');
+    localStorage.removeItem('userId');
+  }
 
 
 

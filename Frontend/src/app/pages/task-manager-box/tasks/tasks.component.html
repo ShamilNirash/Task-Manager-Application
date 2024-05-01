@@ -10,13 +10,17 @@
       <div
         class="tasks-body-content-items"
         *ngFor="let item of taskItems"
-        (click)="setCompleted(item)"
+        
         [ngStyle]="
           item.isCompleted
             ? { 'text-decoration': 'line-through', opacity: '0.6' }
             : {}
         ">
-        {{ item.title }}
+        <div class="item name" (click)="setCompleted(item)"> {{ item.title }}</div>
+       
+        <div class="task-list-logo">
+          <fa-icon [icon]="iconDelete" routerLinkActive="iconDisplay" (click)="deleteItem(item._id)"></fa-icon>
+      </div>
       </div>
     </ng-template>
   </div>

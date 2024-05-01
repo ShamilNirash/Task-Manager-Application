@@ -13,6 +13,8 @@ import { CreateNewTaskComponent } from './pages/create-new-task/create-new-task.
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RequestHeaderSetInterceptor } from './request-header-set.interceptor';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UpdateListComponent } from './pages/update-list/update-list.component';
 
 @NgModule({
   declarations: [
@@ -24,9 +26,10 @@ import { RequestHeaderSetInterceptor } from './request-header-set.interceptor';
     CreateNewListComponent,
     CreateNewTaskComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    UpdateListComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, FontAwesomeModule],
   providers: [
     { provide: HTTP_INTERCEPTORS,
       useClass:RequestHeaderSetInterceptor,
