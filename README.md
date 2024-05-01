@@ -50,7 +50,7 @@ Users can logout of their session when finished.
 
 ## Technologies Used
 
- 1.MongoDB: Database for storing user data, lists, and tasks.
+1.MongoDB: Database for storing user data, lists, and tasks.
 
 2. Express.js: Web application framework for Node.js used for building the API.
 
