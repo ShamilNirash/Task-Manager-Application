@@ -8,7 +8,7 @@
 }
 .signUp-tab {
   background-color: aliceblue;
-  height: 50%;
+  height: 60%;
   width: 30%;
   padding: 4rem 4rem 4rem 4rem;
   border-radius: 10px;
@@ -52,4 +52,10 @@
     }
   }
 }
+}
+.login-tab-option{
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

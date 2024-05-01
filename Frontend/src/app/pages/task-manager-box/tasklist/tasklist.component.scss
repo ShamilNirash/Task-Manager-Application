@@ -43,3 +43,15 @@
     background-color: green;
     color: black;
 }
+.task-list-logo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+fa-icon{
+    display: none;
+}
+.iconDisplay{
+    display: block;
+    transition: display 0.4s ease;
+}

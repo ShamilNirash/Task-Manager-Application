@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 
 // load middleware(body of request)
 app.use(bodyParser.json());
-/* Middelware Starts.... */
+/* Middleware Starts.... */
 // CORS HEADERS MIDDLEWARE
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -136,14 +136,14 @@ path: Patch /lists/:id
 task: update specified list
 */
 app.patch("/lists/:id", authenticate, (req, res) => {
-  list
+  try{list
     .findOneAndUpdate(
       { _id: req.params.id, _userId: req.user_id },
       { $set: req.body }
     )
     .then(() => {
-      res.sendStatus(200);
-    });
+      res.status(200).send("update successfully");
+    })}catch(err){console.log("error has occur in backend in patch list",err)}
 });
 
 /* 
@@ -151,6 +151,7 @@ path: Delete lists/:id
 task: delete specified list 
 */
 app.delete("/lists/:id", authenticate, (req, res) => {
+  console.log("goto backend")
   list
     .findOneAndDelete({ _id: req.params.id, _userId: req.user_id })
     .then((list) => {

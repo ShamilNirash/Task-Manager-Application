@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Task } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/task.service';
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-tasks',
@@ -11,14 +12,18 @@ import { TaskService } from 'src/app/task.service';
 export class TasksComponent implements OnInit {
   taskItems: Task[] = [];
   isNotEmptyTasks = false;
+  iconDelete = faTrash;
+  iconUpdate = faPenToSquare;
+  activeListId = '';
   constructor(
     private taskService: TaskService,
     private router: ActivatedRoute,
     private route: Router
-  ) {}
+  ) { }
   ngOnInit() {
     this.router.params.subscribe((params: Params) => {
       if (params['listId']) {
+        this.activeListId = params['listId']
         this.isNotEmptyTasks = true;
         this.taskService.getTaskList(params['listId']).subscribe({
           next: (tasks: Task[]) => {
@@ -58,4 +63,18 @@ export class TasksComponent implements OnInit {
       },
     });
   }
+  deleteItem(id: string) {
+    
+    this.taskService.deleteTaskList(this.activeListId, id).subscribe(
+      {
+        next: () => { this.taskItems = this.taskItems.filter(item => item._id !== id);
+          this.route.navigate([`/lists/${this.activeListId}`]) },
+        error: (err) => { console.log(err.message);
+        }
+
+      }
+    )
+  }
+  
+  
 }

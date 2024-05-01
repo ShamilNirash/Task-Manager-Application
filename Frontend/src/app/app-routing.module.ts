@@ -5,6 +5,7 @@ import { CreateNewListComponent } from './pages/create-new-list/create-new-list.
 import { CreateNewTaskComponent } from './pages/create-new-task/create-new-task.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
+import { UpdateListComponent } from './pages/update-list/update-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'lists', pathMatch: 'full' },
@@ -13,7 +14,9 @@ const routes: Routes = [
   { path: 'lists/:listId', component: TaskManagerAppComponent },
   { path: 'lists/:listId/create-task', component: CreateNewTaskComponent },
   { path: 'user/signup', component: SignupComponent },
-  {path:'user/login', component:LoginComponent}
+  {path:'user/login', component:LoginComponent},
+  {path:'lists/:listId/update',component:UpdateListComponent}
+  
 ];
 
 @NgModule({

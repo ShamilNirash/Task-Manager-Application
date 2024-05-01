@@ -24,6 +24,7 @@ export class RequestHeaderSetInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
 
         if (error.status === 401) {
+          alert("session is expired")
          this.authservice.logout();
          this.router.navigate(['/user/login']);
 
