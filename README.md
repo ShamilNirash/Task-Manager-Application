@@ -49,9 +49,13 @@ Users can logout of their session when finished.
 ## Technologies Used
 
 1.MongoDB: Database for storing user data, lists, and tasks.
+
 2. Express.js: Web application framework for Node.js used for building the API.
+ 
 3. Angular: Frontend framework for building the user interface.
+   
 4. Node.js: Server-side JavaScript runtime environment.
+ 
 5. JWT (JSON Web Tokens): Used for user authentication and session management.
 
 
