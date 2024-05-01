@@ -25,6 +25,7 @@ npm run start
 ```
 This will start the server and launch the application.
 
+
 ## Usage
 
 1. Sign Up:
@@ -46,17 +47,18 @@ Users can rename lists, delete lists, or reorder lists as needed.
 Users can logout of their session when finished.
 
 
+
 ## Technologies Used
 
 1.MongoDB: Database for storing user data, lists, and tasks.
 
 2. Express.js: Web application framework for Node.js used for building the API.
- 
+
 3. Angular: Frontend framework for building the user interface.
-   
-4. Node.js: Server-side JavaScript runtime environment.
- 
-5. JWT (JSON Web Tokens): Used for user authentication and session management.
+
+5. Node.js: Server-side JavaScript runtime environment.
+
+6. JWT (JSON Web Tokens): Used for user authentication and session management.
 
 
 ## Contributing
